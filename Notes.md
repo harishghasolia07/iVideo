@@ -1,0 +1,1 @@
+- Next JS hamesha edge pe chalta hai.
