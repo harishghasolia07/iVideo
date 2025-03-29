@@ -4,9 +4,10 @@ export type VideoFormData = Omit<iVideo, "_id">;
 
 type fetchOptions = {
     method?: "GET" | "POST" | "PUT" | "DELETE";
-    body?: Record<string, any>; // <-- FIXED: instead of `any`
+    body?: Record<string, unknown>;
     headers?: Record<string, string>;
 };
+
 
 class ApiClient {
     private async myfetch<T>(
