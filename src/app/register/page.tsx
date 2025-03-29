@@ -26,7 +26,7 @@ export default function Register() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password })
             })
-            TODO: console.log(res)
+            // TODO: console.log(res)
 
             const data = await res.json();
             console.log(data);
