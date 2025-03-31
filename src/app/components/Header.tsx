@@ -3,21 +3,20 @@
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { Home, User } from "lucide-react";
-import { useNotification } from "./Notification";
 import { useState, useRef, useEffect } from "react";
+import { toast } from "react-hot-toast";
 
 export default function Header() {
     const { data: session } = useSession();
-    const { showNotification } = useNotification();
     const [menuOpen, setMenuOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement | null>(null);
 
     const handleSignOut = async () => {
         try {
             await signOut();
-            showNotification("Signed out successfully", "success");
+            toast.success("Signed out successfully");
         } catch {
-            showNotification("Failed to sign out", "error");
+            toast.error("Failed to sign out");
         }
     };
 
@@ -48,15 +47,15 @@ export default function Header() {
 
                             {menuOpen && (
                                 <div className="absolute right-0 mt-2 w-48 bg-white text-gray-900 shadow-lg rounded-lg p-2">
-
                                     <p className="px-4 py-2 border-b">
                                         {session.user?.email?.split("@")[0]}
                                     </p>
 
-                                    <Link href="/upload" className="block px-4 py-2 hover:bg-gray-200">
+                                    <Link href="/upload" className="block px-4 py-2 hover:bg-gray-200" onClick={() => setMenuOpen(false)}>
                                         Video Upload
                                     </Link>
-                                    <button onClick={handleSignOut} className="block w-full text-left px-4 py-2 text-red-600 hover:bg-gray-200 cursor-pointer">
+
+                                    <button onClick={() => { handleSignOut(); setMenuOpen(false); }} className="block w-full text-left px-4 py-2 text-red-600 hover:bg-gray-200 cursor-pointer">
                                         Sign Out
                                     </button>
                                 </div>
@@ -72,7 +71,3 @@ export default function Header() {
         </div>
     );
 }
-
-
-
-

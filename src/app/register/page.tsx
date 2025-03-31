@@ -1,50 +1,43 @@
-"use client"
-import { useRouter } from "next/navigation"
-import { useState } from "react"
-import Link from "next/link"
-import { useNotification } from "../components/Notification"
+"use client";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import Link from "next/link";
+import { toast } from "react-hot-toast";
 
 export default function Register() {
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [confirmPassword, setConfirmPassword] = useState("")
-    // const [error, setError] = useState<string | null>("")
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
 
-    const router = useRouter()
-
-    const { showNotification } = useNotification();
+    const router = useRouter();
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
+        e.preventDefault();
         if (password !== confirmPassword) {
-            showNotification("Passwords do not match", "error");
+            toast.error("Passwords do not match");
             return;
         }
         try {
             const res = await fetch("/api/auth/register/", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password })
-            })
-            // TODO: console.log(res)
+                body: JSON.stringify({ email, password }),
+            });
 
             const data = await res.json();
-            console.log(data);
             if (!res.ok) {
                 throw new Error(data.error || "Registration failed");
             }
 
-            showNotification("Registration successful! Please log in.", "success");
-            router.push("/login")
+            toast.success("Registration successful!");
+            router.push("/login");
 
         } catch (error) {
-            showNotification(
-                error instanceof Error ? error.message : "Registration failed",
-                "error"
+            toast.error(
+                error instanceof Error ? error.message : "Registration failed"
             );
         }
-    }
-
+    };
 
     return (
         <div className="max-w-md mx-auto">
@@ -103,5 +96,5 @@ export default function Register() {
                 </p>
             </form>
         </div>
-    )
+    );
 }

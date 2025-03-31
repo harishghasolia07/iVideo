@@ -4,9 +4,10 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { IKUploadResponse } from "imagekitio-next/dist/types/components/IKUpload/props";
 import { Loader2 } from "lucide-react";
-import { useNotification } from "./Notification";
+import { toast } from "react-hot-toast";
 import { apiClient } from "../../../lib/api-client";
 import FileUpload from "./FileUpload";
+import { useRouter } from "next/navigation";
 
 interface VideoFormData {
     title: string;
@@ -18,7 +19,7 @@ interface VideoFormData {
 export default function VideoUploadForm() {
     const [loading, setLoading] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
-    const { showNotification } = useNotification();
+    const router = useRouter();
 
     const {
         register,
@@ -37,7 +38,7 @@ export default function VideoUploadForm() {
     const handleUploadSuccess = (response: IKUploadResponse) => {
         setValue("videoURL", response.filePath);
         setValue("thumbnailURL", response.thumbnailUrl || response.filePath);
-        showNotification("Video uploaded successfully!", "success");
+        toast.success("Video uploaded successfully!");
     };
 
     const handleUploadProgress = (progress: number) => {
@@ -46,24 +47,23 @@ export default function VideoUploadForm() {
 
     const onSubmit = async (data: VideoFormData) => {
         if (!data.videoURL) {
-            showNotification("Please upload a video first", "error");
+            toast.error("Please upload a video first");
             return;
         }
 
         setLoading(true);
         try {
             await apiClient.createVideo(data);
-            showNotification("Video published successfully!", "success");
+            toast.success("Video published successfully!");
             setValue("title", "");
             setValue("description", "");
             setValue("videoURL", "");
             setValue("thumbnailURL", "");
             setUploadProgress(0);
+
+            router.push("/");
         } catch (error) {
-            showNotification(
-                error instanceof Error ? error.message : "Failed to publish video",
-                "error"
-            );
+            toast.error(error instanceof Error ? error.message : "Failed to publish video");
         } finally {
             setLoading(false);
         }
@@ -79,8 +79,7 @@ export default function VideoUploadForm() {
                 <input
                     type="text"
                     placeholder="Enter title"
-                    className={`bg-[#1e1e1e] text-white rounded-md px-4 py-3 outline-none focus:ring-2 focus:ring-purple-500 ${errors.title ? "ring-2 ring-red-500" : ""
-                        }`}
+                    className={`bg-[#1e1e1e] text-white rounded-md px-4 py-3 outline-none focus:ring-2 focus:ring-purple-500 ${errors.title ? "ring-2 ring-red-500" : ""}`}
                     {...register("title", { required: "Title is required" })}
                 />
             </div>
@@ -89,8 +88,7 @@ export default function VideoUploadForm() {
                 <label className="text-md font-semibold">Description</label>
                 <textarea
                     placeholder="Enter description"
-                    className={`bg-[#1e1e1e] text-white rounded-md px-4 py-2 outline-none focus:ring-2 focus:ring-purple-500 resize-none ${errors.description ? "ring-2 ring-red-500" : ""
-                        }`}
+                    className={`bg-[#1e1e1e] text-white rounded-md px-4 py-2 outline-none focus:ring-2 focus:ring-purple-500 resize-none ${errors.description ? "ring-2 ring-red-500" : ""}`}
                     rows={5}
                     {...register("description", { required: "Description is required" })}
                 />
@@ -98,7 +96,7 @@ export default function VideoUploadForm() {
 
             <div className="flex flex-col space-y-3 width">
                 <label className="text-md font-semibold">Upload Video</label>
-                <div className="p-3 rounded-lg" style={{ backgroundColor: 'rgb(30,41,57)' }}>
+                <div className="p-3 rounded-lg" style={{ backgroundColor: "rgb(30,41,57)" }}>
                     <FileUpload
                         fileType="video"
                         onSuccess={handleUploadSuccess}
