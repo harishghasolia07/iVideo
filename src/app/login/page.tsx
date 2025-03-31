@@ -23,7 +23,7 @@ export default function Login() {
             toast.error(result.error);
         } else {
             toast.success("Login successful");
-            router.push("/");
+            router.replace("/");
         }
     };
 

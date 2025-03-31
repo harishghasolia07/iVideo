@@ -23,24 +23,20 @@ export const authOptions: NextAuthOptions = {
                     const user = await User.findOne({ email: credentials.email })
 
                     if (!user) {
+                        console.log("❌ User not found");
                         throw new Error("No user found")
                     }
-                    const isValid = await bcrypt.compare(
-                        credentials.password,
-                        user.password
-                    )
+
+                    const isValid = await bcrypt.compare(credentials.password, user.password)
+
                     if (!isValid) {
                         throw new Error("Invalid Password")
                     }
                     // If everything is ok then we will return values and they will be stored in the session-->
-                    return {
-                        id: user._id.toString(),
-                        email: user.email
-                    }
-
+                    return { id: user._id.toString(), email: user.email }
 
                 } catch (error) {
-                    throw error
+                    throw new Error("Authentication failed");
                 }
             }
         }
