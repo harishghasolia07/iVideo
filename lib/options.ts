@@ -35,7 +35,7 @@ export const authOptions: NextAuthOptions = {
                     // If everything is ok then we will return values and they will be stored in the session-->
                     return { id: user._id.toString(), email: user.email }
 
-                } catch (error) {
+                } catch {
                     throw new Error("Authentication failed");
                 }
             }
