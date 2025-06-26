@@ -40,7 +40,7 @@ export default function Home() {
   return (
     <div className="home-page bg-gray-900 min-h-screen">
       {/* Content Section */}
-      <div className="container mx-auto px-4 py-3 min-h-screen">
+      <div className="container mx-auto px-4 pt-4 pb-2">
         {/* Search Bar */}
         <div className="flex justify-center mb-4">
           <div className="max-w-md w-full">
@@ -74,7 +74,7 @@ export default function Home() {
         </div>
 
         {/* Videos Section */}
-        <div className="mb-1 pb-4">
+        <div className="mb-2">
           <h2 className="text-lg font-bold text-white mb-3 flex items-center">
             {activeTab === 'trending' && <TrendingUp className="w-5 h-5 mr-2 text-emerald-400" />}
             {activeTab === 'recent' && <Clock className="w-5 h-5 mr-2 text-blue-400" />}

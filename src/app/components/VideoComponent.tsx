@@ -3,9 +3,9 @@ import { iVideo } from "../../../models/Video";
 
 export default function VideoComponent({ video }: { video: iVideo }) {
     return (
-        <div className="group relative bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/50 hover:border-emerald-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/10">
+        <div className="group relative bg-gray-800/80 backdrop-blur-sm rounded-lg overflow-hidden border border-gray-700/50 hover:border-emerald-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/10">
             {/* Video Container */}
-            <div className="relative overflow-hidden rounded-t-2xl">
+            <div className="relative overflow-hidden rounded-t-lg">
                 <div className="aspect-[9/16] relative bg-gray-900">
                     <IKVideo
                         path={video.videoURL.toString()}
@@ -18,14 +18,14 @@ export default function VideoComponent({ video }: { video: iVideo }) {
             </div>
 
             {/* Content Area */}
-            <div className="p-3 space-y-2">
+            <div className="p-2 space-y-1">
                 {/* Title */}
-                <h3 className="text-white font-semibold text-base leading-tight line-clamp-2">
+                <h3 className="text-white font-semibold text-sm leading-tight line-clamp-2">
                     {video.title}
                 </h3>
 
                 {/* Description */}
-                <p className="text-gray-400 text-sm leading-relaxed line-clamp-3">
+                <p className="text-gray-400 text-xs leading-relaxed line-clamp-2">
                     {video.description}
                 </p>
             </div>

@@ -38,10 +38,10 @@ body {
   background: #111827;
 }
 
-/* Compact home page - only scroll when lots of content */
+/* Home page - only scroll when content actually overflows */
 .home-page {
-  max-height: 100vh;
-  overflow-y: auto;
+  min-height: 100vh;
+  background: #111827;
 }
 
 /* Line clamp utilities for text truncation */
