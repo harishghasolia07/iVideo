@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 export interface IUser {//Here we define interface bcs we are using ts for type safety
     email: string;
     password: string
-    // username?: string;
+    username?: string;
     _id?: mongoose.Types.ObjectId
     createdAt?: Date
     updatedAt?: Date
@@ -22,7 +22,7 @@ const userSchema = new Schema<IUser>(
             type: String,
             required: true
         },
-        // username: { type: String },
+        username: { type: String },
     },
     { timestamps: true }
 )
