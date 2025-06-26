@@ -1,7 +1,6 @@
 "use client";
 
 import VideoUploadForm from "../components/VideoUploadForm";
-import Summarizer from "../components/Summarizer";
 
 export default function VideoUploadPage() {
     return (

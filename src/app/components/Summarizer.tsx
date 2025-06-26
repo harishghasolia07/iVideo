@@ -17,7 +17,7 @@ export default function Summarizer() {
         try {
             const response = await axios.post("/api/summarize", { text });
             setSummary(response.data[0].summary_text);
-        } catch (error) {
+        } catch {
             setSummary("Failed to summarize text.");
         } finally {
             setLoading(false);
