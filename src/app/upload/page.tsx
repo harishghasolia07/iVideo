@@ -1,6 +1,7 @@
 "use client";
 
 import VideoUploadForm from "../components/VideoUploadForm";
+import Summarizer from "../components/Summarizer";
 
 export default function VideoUploadPage() {
     return (
@@ -8,6 +9,7 @@ export default function VideoUploadPage() {
             <div className="max-w-2xl mx-auto">
                 <h1 className="text-3xl font-bold mb-8">Upload New Reel</h1>
                 <VideoUploadForm />
+                {/* <Summarizer /> */}
             </div>
         </div>
     );

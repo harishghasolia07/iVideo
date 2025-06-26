@@ -10,7 +10,6 @@ export default withAuth(
         callbacks: {
             authorized: ({ token, req }) => {
                 const { pathname } = req.nextUrl;
-                TODO: console.log(req.nextUrl)
 
                 //allow auth related routes-->(So thing is if we return true then it will pass that path without check)
                 if (pathname.startsWith("/api/auth") ||

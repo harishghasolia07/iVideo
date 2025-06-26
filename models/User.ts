@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 export interface IUser {//Here we define interface bcs we are using ts for type safety
     email: string;
     password: string
+    // username?: string;
     _id?: mongoose.Types.ObjectId
     createdAt?: Date
     updatedAt?: Date
@@ -12,8 +13,16 @@ export interface IUser {//Here we define interface bcs we are using ts for type 
 //Now we define a user schema which follow above interface
 const userSchema = new Schema<IUser>(
     {
-        email: { type: String, required: true, unique: true },
-        password: { type: String, required: true }
+        email: {
+            type: String,
+            required: true,
+            unique: true
+        },
+        password: {
+            type: String,
+            required: true
+        },
+        // username: { type: String },
     },
     { timestamps: true }
 )
@@ -26,6 +35,12 @@ userSchema.pre("save", async function (next) {
     next()
 })
 
-const User = models?.User || model<IUser>("User", userSchema) //models?.User checks if the model is already defined.If it exists, it reuses the existing model.If it does not exist, it creates a new one using model("User", userSchema)
+// Fix for Next.js hot reloading - ensure fresh model with pre-save hook
+if (models?.User) {
+    // Delete the existing model to ensure fresh registration with hooks
+    delete models.User;
+}
+
+const User = model<IUser>("User", userSchema);
 
 export default User;

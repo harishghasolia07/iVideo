@@ -5,13 +5,24 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../../../../lib/options";
 
 
-export async function GET() {
+export async function GET(request: NextRequest) {
     try {
         await connectToDatabase();
-        const videos = await Video.find({}).sort({ createdAt: -1 }).lean();
 
-        if (!videos || videos.length === 0) {
-            return NextResponse.json([], { status: 200 });
+        const { searchParams } = new URL(request.url);
+        const query = searchParams.get("query") || "";
+
+        let videos;
+
+        if (query) {
+            videos = await Video.find({
+                $or: [
+                    { title: { $regex: query, $options: "i" } },
+                    { description: { $regex: query, $options: "i" } },
+                ],
+            }).sort({ createdAt: -1 }).lean();
+        } else {
+            videos = await Video.find({}).sort({ createdAt: -1 }).lean();
         }
 
         return NextResponse.json(videos);
@@ -23,6 +34,7 @@ export async function GET() {
         );
     }
 }
+
 
 export async function POST(request: NextRequest) {
     try {

@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "../../../../../lib/db";
 import User from "../../../../../models/User";
-import bcrypt from "bcryptjs";
 
 export async function POST(request: NextRequest) {
     try {
@@ -16,6 +15,7 @@ export async function POST(request: NextRequest) {
 
         await connectToDatabase();
 
+        // Check if user already exists
         const existingUser = await User.findOne({ email });
 
         if (existingUser) {
@@ -25,9 +25,9 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        await User.create({ email, password: hashedPassword });
+        //IMP: Don't hash the password here - the pre-save hook will do it - and it is defined in User model
+        // Just create the user with the plain password
+        await User.create({ email, password });
 
         return NextResponse.json(
             { message: "User registered successfully" },
