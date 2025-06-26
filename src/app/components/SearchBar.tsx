@@ -15,15 +15,15 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
     };
 
     return (
-        <div className="relative w-full max-w-sm">
+        <div className="relative w-full max-w-md">
             <input
                 type="text"
                 value={query}
                 onChange={handleSearch}
                 placeholder="Search videos..."
-                className="w-full pl-10 pr-4 py-2 border rounded-lg text-black "
+                className="w-full pl-12 pr-4 py-3 bg-gray-800/80 backdrop-blur-sm border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-300"
             />
-            <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
+            <FiSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
         </div>
     );
 }

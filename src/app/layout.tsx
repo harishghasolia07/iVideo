@@ -7,8 +7,8 @@ import { Toaster } from "react-hot-toast";  // Import Toaster
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "ImageKit Next.js Integration",
-  description: "Demo of ImageKit integration with Next.js",
+  title: "iVideo - Short Video Platform",
+  description: "Discover amazing short videos, share your creativity, and connect with creators worldwide.",
 };
 
 export default function RootLayout({
@@ -22,7 +22,7 @@ export default function RootLayout({
         <Providers>
           <Header />
           <Toaster position="bottom-right" />
-          <main className="container mx-auto px-4 py-8">{children}</main>
+          {children}
         </Providers>
       </body>
     </html>
