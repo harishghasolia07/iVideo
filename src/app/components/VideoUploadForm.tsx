@@ -61,7 +61,7 @@ export default function VideoUploadForm() {
             setValue("thumbnailURL", "");
             setUploadProgress(0);
 
-            router.push("/");
+            router.push("/feed");
         } catch (error) {
             toast.error(error instanceof Error ? error.message : "Failed to publish video");
         } finally {

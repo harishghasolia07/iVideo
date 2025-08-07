@@ -1,14 +1,17 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
 import Providers from "./components/Providers";
-import Header from "./components/Header";
-import { Toaster } from "react-hot-toast";  // Import Toaster
+import { Metadata } from 'next';
+import RootLayoutClient from './layout-client';
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "iVideo - Short Video Platform",
   description: "Discover amazing short videos, share your creativity, and connect with creators worldwide.",
+  icons: {
+    icon: '/logo.png',
+  },
 };
 
 export default function RootLayout({
@@ -20,9 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Providers>
-          <Header />
-          <Toaster position="bottom-right" />
-          {children}
+          <RootLayoutClient>{children}</RootLayoutClient>
         </Providers>
       </body>
     </html>

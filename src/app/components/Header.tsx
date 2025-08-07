@@ -1,8 +1,7 @@
 "use client";
-
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
-import { User, Upload, LogOut, Play } from "lucide-react";
+import { User, Upload, LogOut, Play, Film } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { toast } from "react-hot-toast";
 
@@ -13,7 +12,7 @@ export default function Header() {
 
     const handleSignOut = async () => {
         try {
-            await signOut();
+            await signOut({ redirect: true, callbackUrl: '/' });
             toast.success("Signed out successfully");
         } catch {
             toast.error("Failed to sign out");
@@ -35,8 +34,7 @@ export default function Header() {
     return (
         <div className="sticky top-0 z-50 bg-gray-900/95 backdrop-blur-md border-b border-gray-800 shadow-lg">
             <div className="container mx-auto flex items-center justify-between py-4 px-6">
-                {/* Logo */}
-                <Link href="/" className="flex items-center gap-3 group">
+                <Link href={session ? "/feed" : "/"} className="flex items-center gap-3 group">
                     <div className="bg-emerald-600 hover:bg-emerald-500 p-2 rounded-lg group-hover:scale-105 transition-transform duration-300">
                         <Play className="w-6 h-6 text-white" />
                     </div>
@@ -45,7 +43,6 @@ export default function Header() {
                     </span>
                 </Link>
 
-                {/* Navigation */}
                 <div className="relative" ref={menuRef}>
                     {session ? (
                         <>
@@ -72,6 +69,14 @@ export default function Header() {
 
                                     <div className="py-2">
                                         <Link
+                                            href="/feed"
+                                            className="flex items-center space-x-3 px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-700/50 rounded-lg transition-all duration-200"
+                                            onClick={() => setMenuOpen(false)}
+                                        >
+                                            <Film className="w-4 h-4" />
+                                            <span>My Feed</span>
+                                        </Link>
+                                        <Link
                                             href="/upload"
                                             className="flex items-center space-x-3 px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-700/50 rounded-lg transition-all duration-200"
                                             onClick={() => setMenuOpen(false)}
@@ -79,7 +84,6 @@ export default function Header() {
                                             <Upload className="w-4 h-4" />
                                             <span>Upload Video</span>
                                         </Link>
-
                                         <button
                                             onClick={() => { handleSignOut(); setMenuOpen(false); }}
                                             className="flex items-center space-x-3 w-full text-left px-4 py-2 text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-all duration-200"
